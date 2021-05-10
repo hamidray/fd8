@@ -1,62 +1,39 @@
 <template>
 
-  <form  @submit.prevent="handleSubmit">  
-
-    <h3>Sign Up</h3>
-          
    <div class="form-group">
+    <h3>Register</h3>
+      
         <label>Email Address</label>
-         <input type="email" class="form-control" v-model="email" placeholder="Email"/>
-   </div>
-    
-   <div class="form-group">
+         <input type="email" class="form-control" v-model="email" placeholder="Email" />
+         <br>
         <label>Create Password</label>
-         <input type="password" class="form-control" v-model="password" placeholder="Password"/>
+         <input type="password" class="form-control" v-model="password" placeholder="Password" />
+     
+   <button @click="register" class="btn btn-primary btn-block">
+     Register</button>
    </div>
-  
-
-   <button class="btn btn-primary btn-block">Sign Up</button>
-
-
-  </form>
-    
+      
 </template>
 
 
 <script>
-import axios from 'axios'
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
-    name: 'Register',
-    data() {
-        return {
-                      
-            email: '',
-            password: ''
-          
-        }
-        
+    data () {
+    return {
+        email: '',
+        password: ''
+      }
     },
-    
     methods: {
-         handleSubmit() {
-             const data = {
-                 
-                 email: this.email,
-                 password: this.password
-               
-             };
-             console.log(data);
-             axios.post('http://localhost/8000/register' , data)
-             .then(
-                res => {
-                     console.log(res)
-                 }
-             ).catch(
-                 err => {
-                     console.log(err)
-                 }
-             )
-         }
-   }
-}
+      async  register () {
+       const response = await AuthenticationService.register({
+            email : this.email,
+            password: this.password
+          })
+           console.log(response.data);
+       }
+    }
+ }
+
 </script>
